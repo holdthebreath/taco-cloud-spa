@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>holdthebreath</groupId>
+        <artifactId>taco-cloud-spa</artifactId>
+        <version>0.0.6-SNAPSHOT</version>
+    </parent>
+    <artifactId>taco-cloud-api</artifactId>
+    <packaging>jar</packaging>
+    <name>taco-cloud-api</name>
+    <description>taco cloud api</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>holdthebreath</groupId>
+            <artifactId>taco-cloud-data</artifactId>
+            <version>${taco-cloud.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>holdthebreath</groupId>
+            <artifactId>taco-cloud-domain</artifactId>
+            <version>${taco-cloud.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>holdthebreath</groupId>
+            <artifactId>taco-cloud-security</artifactId>
+            <version>${taco-cloud.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

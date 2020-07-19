@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>holdthebreath</groupId>
+        <artifactId>taco-cloud-spa</artifactId>
+        <version>0.0.6-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>taco-cloud-security</artifactId>
+    <packaging>jar</packaging>
+    <name>taco-cloud-security</name>
+    <description>Taco Cloud Security</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>holdthebreath</groupId>
+            <artifactId>taco-cloud-domain</artifactId>
+            <version>${taco-cloud.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>holdthebreath</groupId>
+            <artifactId>taco-cloud-data</artifactId>
+            <version>${taco-cloud.version}</version>
+        </dependency>
+
+        <!--		Spring Security-->
+        <!--		默认安全特性:-->
+        <!--		1.所有的HTTP请求都需要认证-->
+        <!--		2.不需要特定的角色和权限-->
+        <!--		3.系统只有一个用户,用户名为user,密码随机生成并写入日志-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
