@@ -1,12 +1,11 @@
 package tacos.web.api;
 
 import lombok.Getter;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.RepresentationModel;
-import tacos.Ingredient;
 import tacos.Taco;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @ClassName TacoResource
@@ -16,16 +15,18 @@ import java.util.List;
  * @Version 1.0
  */
 public class TacoResource extends RepresentationModel<TacoResource> {
+    private static final IngredientResourceAssembler INGREDIENT_RESOURCE_ASSEMBLER = new IngredientResourceAssembler(IngredientController.class, IngredientResource.class);
+
     @Getter
     private final String name;
     @Getter
     private final Date createdAt;
     @Getter
-    private final List<Ingredient> ingredients;
+    private final CollectionModel<IngredientResource> ingredients;
 
     public TacoResource(Taco taco) {
         this.name = taco.getName();
         this.createdAt = taco.getCreatedAt();
-        this.ingredients = taco.getIngredients();
+        this.ingredients = INGREDIENT_RESOURCE_ASSEMBLER.toCollectionModel(taco.getIngredients());
     }
 }
