@@ -3,6 +3,7 @@ package tacos.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.EntityLinks;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,13 +13,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import tacos.Taco;
 import tacos.data.TacoRepository;
+import tacos.web.api.TacoResource;
+import tacos.web.api.TacoResourceAssembler;
 
+import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 /**
  * @ClassName DesignTacoController
@@ -47,10 +52,14 @@ public class DesignTacoController {
     }
 
     @GetMapping("/recent")
-    public Iterable<Taco> recentTacos() {
+    public CollectionModel<TacoResource> recentTacos() {
         //第一页(序号为0)的12条结果,并按照创建时间降序排序
         PageRequest pageRequest = PageRequest.of(0, 12, Sort.by("createdAt").descending());
-        return tacoRepository.findAll(pageRequest).getContent();
+        List<Taco> tacoList = tacoRepository.findAll(pageRequest).getContent();
+        CollectionModel<TacoResource> collectionModel = new TacoResourceAssembler(DesignTacoController.class, TacoResource.class).toCollectionModel(tacoList);
+        //为整体列表添加链接
+        collectionModel.add(linkTo(DesignTacoController.class).slash("recent").withRel("recents"));
+        return collectionModel;
     }
 
     //针对/design/{id}的GET请求,{id}是占位符,请求中的实际值会传递给id参数(通过@PathVariable注解匹配)
