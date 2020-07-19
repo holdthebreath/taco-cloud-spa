@@ -3,6 +3,7 @@ package tacos.web.api;
 import lombok.Getter;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 import tacos.Taco;
 
 import java.util.Date;
@@ -14,6 +15,8 @@ import java.util.Date;
  * @Date 2020/7/19 9:53 PM
  * @Version 1.0
  */
+//指定HATEOAS如何命名结果JSON中的字段名
+@Relation(value = "taco", collectionRelation = "tacos")
 public class TacoResource extends RepresentationModel<TacoResource> {
     private static final IngredientResourceAssembler INGREDIENT_RESOURCE_ASSEMBLER = new IngredientResourceAssembler(IngredientController.class, IngredientResource.class);
 
