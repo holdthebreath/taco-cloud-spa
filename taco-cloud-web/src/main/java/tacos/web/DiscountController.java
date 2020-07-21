@@ -17,9 +17,9 @@ import java.util.Map;
 @Controller
 @RequestMapping("/discounts")
 public class DiscountController {
-    private DiscountProps discountProps;
+    private tacos.web.DiscountProps discountProps;
 
-    public DiscountController(DiscountProps discountProps) {
+    public DiscountController(tacos.web.DiscountProps discountProps) {
         this.discountProps = discountProps;
     }
 
