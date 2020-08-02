@@ -1,4 +1,4 @@
-package tacos.web;
+package tacos.web.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import tacos.Taco;
 import tacos.data.TacoRepository;
-import tacos.web.api.TacoResource;
-import tacos.web.api.TacoResourceAssembler;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +27,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
  * @ClassName DesignTacoController
  * @Description 设计taco控制器类
  * @Author hwd
- * @Date 2020/7/8 1:30 PM
+ * @Date 2020/7/8 1:30 PM
  * @Version 1.0
  */
 //构造型注解

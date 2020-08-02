@@ -8,5 +8,6 @@ if (environment.production) {
   enableProdMode();
 }
 
+//Angular编译器在浏览器中编译并引导该应用
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.log(err));

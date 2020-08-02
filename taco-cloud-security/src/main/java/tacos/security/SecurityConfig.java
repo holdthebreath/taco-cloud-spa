@@ -3,6 +3,7 @@ package tacos.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,14 +38,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
+            // needed for Angular/CORS
+            .antMatchers(HttpMethod.OPTIONS).permitAll()
             //声明顺序是重要的,首先声明的安全规则优先于较低级别声明的安全规则
             //对/design和/orders的请求授予ROLE_USER权限
-            .antMatchers("/design", "/orders")
+            .antMatchers("/design", "/orders/**").permitAll()
             //access(String):如果SpEL表达式的值为true，则允许访问
             // = .hasRole("ROLE_USER")
-            .access("hasRole('ROLE_USER')")
+//            .access("hasRole('ROLE_USER')")
+            .antMatchers(HttpMethod.PATCH, "/ingredients").permitAll()
             //所有的请求都被允许给所有的用户
-            .antMatchers("/", "/**")
+            .antMatchers("/**")
             // = .access("permitAll");
             .permitAll()
             //and()方法表示已经完成授权配置,并准备应用一些额外的HTTP配置
@@ -53,10 +57,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .formLogin()
             //配置自定义登陆页面路径
             .loginPage("/login")
+
+            .and()
+            .httpBasic()
+            .realmName("Taco Cloud")
             //登陆失败url
 //            .failureUrl("/login?error=true")
             //配置默认登陆成功页面
-            .defaultSuccessUrl("/design")
+//            .defaultSuccessUrl("/design")
             //登出
             .and()
             .logout()
@@ -64,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             //禁用h2数据库控制台页面的csrf防护
             .and()
             .csrf()
-            .ignoringAntMatchers("/h2-console/**")
+            .ignoringAntMatchers("/h2-console/**", "/ingredients/**", "/design", "/orders/**")
             //配置Spring Security允许iframe frame加载同源的资源(h2控制台页面需要)
             .and()
             .headers().frameOptions()
