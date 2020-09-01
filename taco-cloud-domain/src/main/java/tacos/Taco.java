@@ -1,6 +1,7 @@
 package tacos;
 
 import lombok.Data;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,11 +19,13 @@ import java.util.List;
  * @ClassName Taco
  * @Description Taco领域对象
  * @Author hwd
- * @Date 2020/7/8 1:53 PM
+ * @Date 2020/7/8 1:53 PM
  * @Version 1.0
  */
 @Data
 @Entity
+//path:映射路径 rel:引用别名(默认是方法名) exported:两个值,不设置默认是true,设置为false时表示不作为Rest资源暴露;也可作用在类上
+@RestResource(rel = "tacos", path = "tacos")
 public class Taco {
     @Id
     //因为依赖于数据库自动生成id值,所以还使用@GeneratedValue注解id属性,指定自动策略

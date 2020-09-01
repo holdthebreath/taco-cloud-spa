@@ -3,10 +3,8 @@ package tacos.web.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.EntityLinks;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,10 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tacos.Taco;
 import tacos.data.TacoRepository;
 
-import java.util.List;
 import java.util.Optional;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 /**
  * @ClassName DesignTacoController
@@ -50,27 +45,43 @@ public class DesignTacoController {
     }
 
     @GetMapping("/recent")
-    public CollectionModel<TacoResource> recentTacos() {
-        //第一页(序号为0)的12条结果,并按照创建时间降序排序
-        PageRequest pageRequest = PageRequest.of(0, 12, Sort.by("createdAt").descending());
-        List<Taco> tacoList = tacoRepository.findAll(pageRequest).getContent();
-        CollectionModel<TacoResource> collectionModel = new TacoResourceAssembler(DesignTacoController.class, TacoResource.class).toCollectionModel(tacoList);
-        //为整体列表添加链接
-        collectionModel.add(linkTo(DesignTacoController.class).slash("recent").withRel("recents"));
-        return collectionModel;
+    public Iterable<Taco> recentTacos() {
+        PageRequest page = PageRequest.of(
+            0, 12, Sort.by("createdAt").descending());
+        return tacoRepository.findAll(page).getContent();
     }
 
-    //针对/design/{id}的GET请求,{id}是占位符,请求中的实际值会传递给id参数(通过@PathVariable注解匹配)
+//    @GetMapping("/recent")
+//    public CollectionModel<TacoResource> recentTacos() {
+        //第一页(序号为0)的12条结果,并按照创建时间降序排序
+//        PageRequest pageRequest = PageRequest.of(0, 12, Sort.by("createdAt").descending());
+//        List<Taco> tacoList = tacoRepository.findAll(pageRequest).getContent();
+//        CollectionModel<TacoResource> collectionModel = new TacoResourceAssembler(DesignTacoController.class, TacoResource.class).toCollectionModel(tacoList);
+        //为整体列表添加链接
+//        collectionModel.add(linkTo(DesignTacoController.class).slash("recent").withRel("recents"));
+//        return collectionModel;
+//    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Taco> tacoById(@PathVariable("id") Long id) {
-        Optional<Taco> optionalTaco = tacoRepository.findById(id);
-        // =
-//        if (optionalTaco.isPresent()) {
-//            return new ResponseEntity<>(optionalTaco.get(), HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        return optionalTaco.map(taco -> new ResponseEntity<>(taco, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+    public Taco tacoById(@PathVariable("id") Long id) {
+        Optional<Taco> optTaco = tacoRepository.findById(id);
+        if (optTaco.isPresent()) {
+            return optTaco.get();
+        }
+        return null;
     }
+
+//    //针对/design/{id}的GET请求,{id}是占位符,请求中的实际值会传递给id参数(通过@PathVariable注解匹配)
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Taco> tacoById(@PathVariable("id") Long id) {
+//        Optional<Taco> optionalTaco = tacoRepository.findById(id);
+////         =
+////        if (optionalTaco.isPresent()) {
+////            return new ResponseEntity<>(optionalTaco.get(), HttpStatus.OK);
+////        }
+////        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+//        return optionalTaco.map(taco -> new ResponseEntity<>(taco, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+//    }
 
     //consumes指定请求输入:该方法只会处理Content-type = application/json想匹配的请求
     @PostMapping(consumes = "application/json")

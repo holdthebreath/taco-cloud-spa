@@ -15,7 +15,7 @@ import tacos.data.IngredientRepository;
  * @Version 1.0
  */
 @RestController
-@RequestMapping(path = "/ingredient", produces = "application/json")
+@RequestMapping(path = "/ingredientsx", produces = "application/json")
 @CrossOrigin("*")
 public class IngredientController {
     private IngredientRepository ingredientRepository;
