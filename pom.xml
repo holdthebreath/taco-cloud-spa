@@ -24,6 +24,7 @@
 		<module>taco-cloud</module>
 		<module>taco-cloud-api</module>
 		<module>taco-cloud-domain</module>
+		<module>tacocloud-restclient</module>
 		<module>taco-cloud-data</module>
 		<module>taco-cloud-ui</module>
 		<module>taco-cloud-security</module>

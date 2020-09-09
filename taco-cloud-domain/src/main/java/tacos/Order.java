@@ -1,7 +1,6 @@
 package tacos;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.CreditCardNumber;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,9 +10,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,11 +45,11 @@ public class Order implements Serializable {
     @NotBlank(message = "Zip code is required")
     private String deliveryZip;
     //合法的信用卡号,能通过Luhn算法检查
-    @CreditCardNumber(message = "Not a valid credit card number")
+//    @CreditCardNumber(message = "Not a valid credit card number")
     private String ccNumber;
-    @Pattern(regexp = "^(0[1-9]|1[0-2])([\\/])([1-9][0-9])$", message = "Must be formatted MM/YY")
+//    @Pattern(regexp = "^(0[1-9]|1[0-2])([\\/])([1-9][0-9])$", message = "Must be formatted MM/YY")
     private String ccExpiration;
-    @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
+//    @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
     @ManyToMany(targetEntity = Taco.class)
     private List<Taco> tacos = new ArrayList<>();

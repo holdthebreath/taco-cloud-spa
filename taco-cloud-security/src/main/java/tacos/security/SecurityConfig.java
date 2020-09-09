@@ -40,6 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.authorizeRequests()
             // needed for Angular/CORS
             .antMatchers(HttpMethod.OPTIONS).permitAll()
+            //给/api/ingredients POST请求全部权限
+            .antMatchers(HttpMethod.POST, "/api/ingredients").permitAll()
             //声明顺序是重要的,首先声明的安全规则优先于较低级别声明的安全规则
             //对/design和/orders的请求授予ROLE_USER权限
             .antMatchers("/design", "/orders/**").permitAll()
@@ -72,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             //禁用h2数据库控制台页面的csrf防护
             .and()
             .csrf()
-            .ignoringAntMatchers("/h2-console/**", "/ingredients/**", "/design", "/orders/**")
+            .ignoringAntMatchers("/h2-console/**", "/ingredients/**", "/design", "/orders/**", "/api/**")
             //配置Spring Security允许iframe frame加载同源的资源(h2控制台页面需要)
             .and()
             .headers().frameOptions()
